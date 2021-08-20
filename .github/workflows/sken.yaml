@@ -1,24 +1,14 @@
-name: CI
-on:
-push:
-branches: [ github-action ]
-pull_request:
-branches: [ github-action ]
-jobs:
-build:
-runs-on: ubuntu-latest
-steps:
-# Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-- uses: actions/checkout@v2
-- name: Set up Python 3.x
-uses: actions/setup-python@v2
-with:
-# Semantic version range syntax or exact version of a Python version
-python-version: '3.x'
-# Optional - x64 or x86 architecture, defaults to x64
-architecture: 'x64'
-- name: Install skencli
-run: pip3 install --upgrade skencli
-- name: Run skencli
-run: skencli
+orgid: 570a3df3-1724-4e2d-b5ce-68f091d269de
+appid: 89b9afcc-08ca-4074-9d21-d03e288f53e1
 
+# optional Param section start
+buildtool: github-action # optional param, values=jenkins|travis
+scanner: sast,sca # optional param, default is ALL
+language: ruby # optional param, default is Auto-Detect
+
+variables:
+  DAST_URL: https://your.url.com # optional param 
+  DAST_FULL_SCAN: true #true|false
+
+# optional Param section end
+# end of file
