@@ -21,3 +21,4 @@ architecture: 'x64'
 run: pip3 install --upgrade skencli
 - name: Run skencli
 run: skencli
+
