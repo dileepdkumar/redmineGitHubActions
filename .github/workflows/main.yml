@@ -18,5 +18,8 @@ jobs:
         python-version: '3.x'
         # Optional - x64 or x86 architecture, defaults to x64
         architecture: 'x64'
+    - name: user
+      run: echo $USER 
+
     - name: run FortiDevSec
       run: docker run --rm --mount type=bind,source="$PWD",target=/scan dops-registry.fortinet-us.com/fortidevsecops/fdevsec_sec_engine:0.0.1 main
