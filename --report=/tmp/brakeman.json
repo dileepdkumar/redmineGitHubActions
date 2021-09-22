@@ -1,0 +1,951 @@
+{
+  "scan_info": {
+    "app_path": "/scan",
+    "rails_version": "6.1.4",
+    "security_warnings": 46,
+    "start_time": "2021-09-22 14:53:47 +0000",
+    "end_time": "2021-09-22 14:54:16 +0000",
+    "duration": 29.646434908,
+    "checks_performed": [
+      "BasicAuth",
+      "BasicAuthTimingAttack",
+      "ContentTag",
+      "CreateWith",
+      "CrossSiteScripting",
+      "DefaultRoutes",
+      "Deserialize",
+      "DetailedExceptions",
+      "DigestDoS",
+      "DynamicFinders",
+      "EscapeFunction",
+      "Evaluation",
+      "Execute",
+      "FileAccess",
+      "FileDisclosure",
+      "FilterSkipping",
+      "ForgerySetting",
+      "HeaderDoS",
+      "I18nXSS",
+      "JRubyXML",
+      "JSONEncoding",
+      "JSONParsing",
+      "LinkTo",
+      "LinkToHref",
+      "MailTo",
+      "MassAssignment",
+      "MimeTypeDoS",
+      "ModelAttrAccessible",
+      "ModelAttributes",
+      "ModelSerialize",
+      "NestedAttributes",
+      "NestedAttributesBypass",
+      "NumberToCurrency",
+      "PermitAttributes",
+      "QuoteTableName",
+      "Redirect",
+      "RegexDoS",
+      "Render",
+      "RenderDoS",
+      "RenderInline",
+      "ResponseSplitting",
+      "RouteDoS",
+      "SQL",
+      "SQLCVEs",
+      "SSLVerify",
+      "SafeBufferManipulation",
+      "SanitizeMethods",
+      "SelectTag",
+      "SelectVulnerability",
+      "Send",
+      "SendFile",
+      "SessionManipulation",
+      "SessionSettings",
+      "SimpleFormat",
+      "SingleQuotes",
+      "SkipBeforeFilter",
+      "StripTags",
+      "SymbolDoSCVE",
+      "TranslateBug",
+      "UnsafeReflection",
+      "ValidationRegex",
+      "WithoutProtection",
+      "XMLDoS",
+      "YAMLParsing"
+    ],
+    "number_of_controllers": 52,
+    "number_of_models": 91,
+    "number_of_templates": 382,
+    "ruby_version": "2.7.4",
+    "brakeman_version": "4.3.1"
+  },
+  "warnings": [
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "014b528ade37f6d7cc0ebe8b5f971b260bd74c8e7a965c439c312d94d1318f53",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/redmine/thumbnail.rb",
+      "line": 81,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`#{shell_quote(GS_BIN)} -version`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Thumbnail",
+        "method": "s(:self).gs_available?"
+      },
+      "user_input": "shell_quote(GS_BIN)",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "1126353a4b4478f6166180b3fc40cfb3b720f331b6d1834bc26aa1d66100e0f2",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/redmine/thumbnail.rb",
+      "line": 68,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`#{shell_quote(CONVERT_BIN)} -version`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Thumbnail",
+        "method": "s(:self).convert_available?"
+      },
+      "user_input": "shell_quote(CONVERT_BIN)",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "13ae404dbdded0912307db4703cc774828d648cfe197f91e8cbdb6e4dac89f09",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/query.rb",
+      "line": 362,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "joins(\"LEFT OUTER JOIN #{Project.table_name} ON #{table_name}.project_id = #{Project.table_name}.id\").where(\"#{table_name}.project_id IS NULL OR (#{Project.allowed_to_condition((args.shift or User.current), view_permission, *args)})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Query",
+        "method": "Query.visible"
+      },
+      "user_input": "Project.allowed_to_condition((args.shift or User.current), view_permission, *args)",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "1ba775be25ea2167bf5b6cac45a6b8bf622425fe49593c0216dacc45989c6a91",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/project.rb",
+      "line": 536,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Version.joins(:project).preload(:project).where(\"#{Project.table_name}.id = #{id} OR (#{Project.table_name}.status <> #{9} AND ( #{Version.table_name}.sharing = 'system' OR (#{Project.table_name}.lft >= #{(self or root).lft} AND #{Project.table_name}.rgt <= #{(self or root).rgt} AND #{Version.table_name}.sharing = 'tree') OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants')) OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')))\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Project",
+        "method": "shared_versions"
+      },
+      "user_input": "(self or root).lft",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "22b4b0118bdf77b18ef37d1cf1511952216fbb0179289883d0e7e1aa250a81d6",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method constantize called with parameter value",
+      "file": "app/controllers/attachments_controller.rb",
+      "line": 224,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "params[:object_type].to_s.singularize.classify.constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttachmentsController",
+        "method": "find_container"
+      },
+      "user_input": "params[:object_type].to_s.singularize.classify",
+      "confidence": "High"
+    },
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 76,
+      "fingerprint": "26a11ebe7f949468fd143dae88068f0026309ca6b0280a9055e7c09bd09e8b0b",
+      "check_name": "RegexDoS",
+      "message": "Model attribute used in regex",
+      "file": "app/models/changeset.rb",
+      "line": 138,
+      "link": "https://brakemanscanner.org/docs/warning_types/denial_of_service/",
+      "code": "/\n        ([\\s\\(\\[,-]|^)((#{(Setting.commit_ref_keywords.downcase.split(\",\").collect(&:strip) + Setting.commit_update_keywords_array.map do\n r[\"keywords\"]\n end.flatten.compact).collect do\n Regexp.escape(kw)\n end.join(\"|\")})[\\s:]+)?\n        (\\#\\d+(\\s+@#{/\n    (\n    ((\\d+)(h|hours?))((\\d+)(m|min)?)?\n    |\n    ((\\d+)(h|hours?|m|min))\n    |\n    (\\d+):(\\d+)\n    |\n    (\\d+([\\.,]\\d+)?)h?\n    )\n    /x})?([\\s,;&]+\\#\\d+(\\s+@#{/\n    (\n    ((\\d+)(h|hours?))((\\d+)(m|min)?)?\n    |\n    ((\\d+)(h|hours?|m|min))\n    |\n    (\\d+):(\\d+)\n    |\n    (\\d+([\\.,]\\d+)?)h?\n    )\n    /x})?)*)\n        (?=[[:punct:]]|\\s|<|$)\n      /ix",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Changeset",
+        "method": "scan_comment_for_issue_ids"
+      },
+      "user_input": "Setting.commit_update_keywords_array.map",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "2aaf68d51cbe4cb46c03a69febfd5a95c4deea1504fbfc1b644e3db0d9908b49",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/layouts/mailer.html.erb",
+      "line": 74,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.emails_header)",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/mailer"
+      },
+      "user_input": "Setting.text_formatting",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "2dd0692343a94ab8a40d882cba63b23f94028858a88f7f9c32af3b4477f88221",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method const_get called with parameter value",
+      "file": "app/controllers/watchers_controller.rb",
+      "line": 157,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "Object.const_get(params[:object_type].camelcase)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "WatchersController",
+        "method": "find_objects_from_params"
+      },
+      "user_input": "params[:object_type].camelcase",
+      "confidence": "High"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "2f2d78192b70ffd68cb55ac76209a36c8ff01f7355f533d4bfeaf34a7702482b",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/redmine/thumbnail.rb",
+      "line": 56,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system((\"#{shell_quote(CONVERT_BIN)} #{shell_quote(\"#{source}[0]\")} -thumbnail #{shell_quote(\"#{size}x#{size}>\")} #{shell_quote(\"png:#{target}\")}\" or \"#{shell_quote(CONVERT_BIN)} #{shell_quote(source)} -auto-orient -thumbnail #{shell_quote(\"#{size}x#{size}>\")} #{shell_quote(target)}\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Thumbnail",
+        "method": "s(:self).generate"
+      },
+      "user_input": "shell_quote(CONVERT_BIN)",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "337afd82f1d4d61beba319be5804a1660df767d7238acc84db47583eb539b627",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/settings/plugin.html.erb",
+      "line": 6,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(partial => Redmine::Plugin.find(params[:id]).settings[:partial], { :locals => ({ :settings => Setting.send(\"plugin_#{Redmine::Plugin.find(params[:id]).id}\") }) })",
+      "render_path": [{"type":"controller","class":"SettingsController","method":"plugin","line":66,"file":"app/controllers/settings_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "settings/plugin"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "3f26b2d930b4d5b98a2e542832734f176f62c7982dc10818e3a1af38e0dabf6d",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/repositories/_changeset.html.erb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "(Project.find(params[:id]).repositories.find_by_identifier_param(params[:repository_id]) or Project.find(params[:id]).repository).find_changeset_by_name((params[:rev].to_s.strip.presence or (Project.find(params[:id]).repositories.find_by_identifier_param(params[:repository_id]) or Project.find(params[:id]).repository).default_branch)).parents.collect do\n link_to_revision(p, (Project.find(params[:id]).repositories.find_by_identifier_param(params[:repository_id]) or Project.find(params[:id]).repository), :text => format_revision(p))\n end.join(\", \")",
+      "render_path": [{"type":"controller","class":"RepositoriesController","method":"revision","line":223,"file":"app/controllers/repositories_controller.rb"},{"type":"template","name":"repositories/revision","line":29,"file":"app/views/repositories/revision.html.erb"}],
+      "location": {
+        "type": "template",
+        "template": "repositories/_changeset"
+      },
+      "user_input": "Project.find(params[:id]).repositories",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "3fc246dba0cea83a93ad0953a6e03a7134330e594644be69d062b186d4fb4f8a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/redmine/field_format.rb",
+      "line": 344,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"COALESCE(#{join_alias(custom_field)}.value, '')\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::FieldFormat::Base",
+        "method": "order_statement"
+      },
+      "user_input": "join_alias(custom_field)",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "454c6da9f5a9cf0f5f4df4ef83640f1d72d13874c7b670f44b360f1a8bfb5877",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/plugins/acts_as_activity_provider/lib/acts_as_activity_provider.rb",
+      "line": 68,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "(activity_provider_options[event_type][:scope].call or self).where(\"#{activity_provider_options[event_type][:timestamp]} BETWEEN ? AND ?\", from, to)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::ActivityProvider::InstanceMethods::ClassMethods",
+        "method": "find_events"
+      },
+      "user_input": "activity_provider_options[event_type][:timestamp]",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "485e25bea3522f53720c0efee0d94f20739565c673796e6b790376c72a2c63be",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/messages/quote.js.erb",
+      "line": 2,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "escape_javascript(((+\"#{ll(Setting.default_language, :text_user_wrote, @board.messages.includes(:parent).find(params[:id]).author)}\\n> \" or +\"#{ll(Setting.default_language, :text_user_wrote_in, :value => @board.messages.includes(:parent).find(params[:id]).author, :link => (\"message##{@board.messages.includes(:parent).find(params[:id]).id}\"))}\\n> \") << (@board.messages.includes(:parent).find(params[:id]).content.to_s.strip.gsub(/<pre>(.*?)<\\/pre>/m, \"[...]\").gsub(/(\\r?\\n|\\r\\n?)/, \"\\n> \") + \"\\n\\n\")))",
+      "render_path": [{"type":"controller","class":"MessagesController","method":"quote","line":128,"file":"app/controllers/messages_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "messages/quote"
+      },
+      "user_input": "Setting.default_language",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "487c650049a121bf0ab83a2f36c7bc8a594e6fdf61c1c9535cd9fd6ee416b0fe",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/redmine/sort_criteria.rb",
+      "line": 103,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"#{criterion} #{order.to_s.upcase}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::SortCriteria",
+        "method": "append_order"
+      },
+      "user_input": "criterion",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "5ee21850d99e8a3b858a9072ffda8e11b85dbc95ce727d03de7746a18cdabd44",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/repositories/_changeset.html.erb",
+      "line": 26,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "(Project.find(params[:id]).repositories.find_by_identifier_param(params[:repository_id]) or Project.find(params[:id]).repository).find_changeset_by_name((params[:rev].to_s.strip.presence or (Project.find(params[:id]).repositories.find_by_identifier_param(params[:repository_id]) or Project.find(params[:id]).repository).default_branch)).children.collect do\n link_to_revision(p, (Project.find(params[:id]).repositories.find_by_identifier_param(params[:repository_id]) or Project.find(params[:id]).repository), :text => format_revision(p))\n end.join(\", \")",
+      "render_path": [{"type":"controller","class":"RepositoriesController","method":"revision","line":223,"file":"app/controllers/repositories_controller.rb"},{"type":"template","name":"repositories/revision","line":29,"file":"app/views/repositories/revision.html.erb"}],
+      "location": {
+        "type": "template",
+        "template": "repositories/_changeset"
+      },
+      "user_input": "Project.find(params[:id]).repositories",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "609673a4d9c4c5479f19573f84a538d2b032a2d02c149215a85b837da7050add",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/timelog/_report_criteria.html.erb",
+      "line": 7,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "(\"<td></td>\" * ((Redmine::Helpers::TimeReport.new(@project, params[:criteria], params[:columns], time_entry_scope).criteria.length - 0) - 1))",
+      "render_path": [{"type":"controller","class":"TimelogController","method":"report","line":82,"file":"app/controllers/timelog_controller.rb"},{"type":"template","name":"timelog/report","line":53,"file":"app/views/timelog/report.html.erb"}],
+      "location": {
+        "type": "template",
+        "template": "timelog/_report_criteria"
+      },
+      "user_input": "params[:criteria]",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "6e176b82d45ecc47ea1d0602d2ff75a7b48873125645deaebc1b790648203fa9",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/attachments_controller.rb",
+      "line": 50,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.read(Attachment.find(params[:id]).diskfile, :mode => \"rb\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttachmentsController",
+        "method": "show"
+      },
+      "user_input": "Attachment.find(params[:id]).diskfile",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "6e176b82d45ecc47ea1d0602d2ff75a7b48873125645deaebc1b790648203fa9",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/attachments_controller.rb",
+      "line": 60,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.read(Attachment.find(params[:id]).diskfile, :mode => \"rb\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttachmentsController",
+        "method": "show"
+      },
+      "user_input": "Attachment.find(params[:id]).diskfile",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "7065eb1ba98e151ba8f428da2d5e0c47168b394d8137aeefeba101070de57d2f",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method const_get called with parameter value",
+      "file": "app/controllers/imports_controller.rb",
+      "line": 165,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "Object.const_get(params[:type])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ImportsController",
+        "method": "import_type"
+      },
+      "user_input": "params[:type]",
+      "confidence": "High"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "70979bdf521117b9caaf531cf53e32d204697721e72ccadac8ac7922a4808553",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/redmine/field_format.rb",
+      "line": 483,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"CAST(CASE #{join_alias(custom_field)}.value WHEN '' THEN '0' ELSE #{join_alias(custom_field)}.value END AS decimal(30,3))\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::FieldFormat::Numeric",
+        "method": "order_statement"
+      },
+      "user_input": "join_alias(custom_field)",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "74aa0188712b5ab4c0ade5c7d30f2f7e8abd7cec40706e96a3f9d3258f76e929",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/layouts/mailer.html.erb",
+      "line": 79,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.emails_footer)",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/mailer"
+      },
+      "user_input": "Setting.text_formatting",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "753b9654741a8359576d8fdccb216032dc525fc39f1b1962675b47427253f9a8",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/messages/quote.js.erb",
+      "line": 1,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "escape_javascript((@board.messages.includes(:parent).find(params[:id]).subject or \"RE: #{@board.messages.includes(:parent).find(params[:id]).subject}\"))",
+      "render_path": [{"type":"controller","class":"MessagesController","method":"quote","line":128,"file":"app/controllers/messages_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "messages/quote"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "7c1bd086a30e20b8b14c1ccbd58d0a68289acee85daec9b2e32a35cd74bde2da",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/gantts/show.html.erb",
+      "line": 174,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Redmine::Helpers::Gantt.new(params).subjects",
+      "render_path": [{"type":"controller","class":"GanttsController","method":"show","line":43,"file":"app/controllers/gantts_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "gantts/show"
+      },
+      "user_input": "params",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "80bdfeeec2c65f0806c5934e65955ddb1b10cfbb7f32e063dbd984865f9386ac",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/version.rb",
+      "line": 103,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "open(open).sum(\"COALESCE(estimated_hours, #{estimated_average}) * #{(\"done_ratio\" or 100)}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "FixedIssuesExtension",
+        "method": "issues_progress"
+      },
+      "user_input": "estimated_average",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "8bf9da348b0a080f753e3a5d2c71ef61a477efbc26294c130a91ea88aee0a4d6",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/time_entry.rb",
+      "line": 70,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "joins(:issue).where(\"#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TimeEntry",
+        "method": "on_issue"
+      },
+      "user_input": "issue.lft",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "8d21f303701596e14e375fa0ea20785a3772b303b511f62736f86ba17012ee42",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/redmine/scm/adapters/abstract_adapter.rb",
+      "line": 255,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "IO.popen(\"#{cmd} 2>>#{shell_quote(stderr_log_file)}\", \"r+\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Scm::Adapters::AbstractAdapter",
+        "method": "shellout"
+      },
+      "user_input": "cmd",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "9581fb33d45af47f66db0e553bf56d5065542bd5e47496cf0eb806f0b597115d",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/issue.rb",
+      "line": 1635,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Project.where((Project.allowed_to_condition(user, :add_issues) or [\"(#{Project.allowed_to_condition(user, :add_issues)}) OR #{Project.table_name}.id = ?\", current_project.id]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Issue",
+        "method": "Issue.allowed_target_projects"
+      },
+      "user_input": "Project.allowed_to_condition(user, :add_issues)",
+      "confidence": "High"
+    },
+    {
+      "warning_type": "Format Validation",
+      "warning_code": 30,
+      "fingerprint": "99462db270017ab116a641e31f711203667e978adae063bdc2de9be18f47ec59",
+      "check_name": "ValidationRegex",
+      "message": "Insufficient validation for 'url' using /\\A(http|https|svn(\\+[^\\s:\\/\\\\]+)?|file):\\/\\/.+/i. Use \\A and \\z as anchors",
+      "file": "app/models/repository/subversion.rb",
+      "line": 24,
+      "link": "https://brakemanscanner.org/docs/warning_types/format_validation/",
+      "code": null,
+      "render_path": null,
+      "location": {
+        "type": "model",
+        "model": "Repository::Subversion"
+      },
+      "user_input": null,
+      "confidence": "High"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "a2df2fdd4d7b94087d68d4b3f9fbb545b20d90238329a246ccc00459fd2e144c",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/plugins/acts_as_searchable/lib/acts_as_searchable.rb",
+      "line": 115,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "search_scope(user, [tokens, projects], options).joins(:custom_values).where(\"#{tokens} OR #{projects} OR #{\"(#{CustomValue.table_name}.custom_field_id IN (#{fields.map(&:id).join(\",\")}) AND (#{visibility}))\"}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::Searchable::InstanceMethods::ClassMethods",
+        "method": "search_result_ranks_and_ids"
+      },
+      "user_input": "tokens",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "addd5f448fd2f42c8a7311b20087cb1d7a8f979c81cf14ca8d603dce7368d184",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/gantts/show.html.erb",
+      "line": 201,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Redmine::Helpers::Gantt.new(params).selected_column_content(:column => column, :top => ((18 or (36 or (54 or 72))) + 8), :zoom => 2, :g_width => ((Redmine::Helpers::Gantt.new(params).date_to - Redmine::Helpers::Gantt.new(params).date_from) + 3).to_i)",
+      "render_path": [{"type":"controller","class":"GanttsController","method":"show","line":43,"file":"app/controllers/gantts_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "gantts/show"
+      },
+      "user_input": "params",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "adeea83ce0e79d98fad3f6e4b551bf4b9f094d4f017d07917451ab7b4db71cdf",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/timelog/report.html.erb",
+      "line": 56,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "(\"<td></td>\" * (Redmine::Helpers::TimeReport.new(@project, params[:criteria], params[:columns], time_entry_scope).criteria.size - 1))",
+      "render_path": [{"type":"controller","class":"TimelogController","method":"report","line":82,"file":"app/controllers/timelog_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "timelog/report"
+      },
+      "user_input": "params[:criteria]",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "b74a9058c2cb13bf764e7caf5a8416530bde89ee2247933c9a42d5cb691472da",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/repositories/show.html.erb",
+      "line": 64,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Project.find(params[:id]).repositories.sort.collect do\n link_to(repo.name, { :controller => \"repositories\", :action => \"show\", :id => Project.find(params[:id]), :repository_id => repo.identifier_param, :rev => nil, :path => nil }, :class => (\"repository\" + (if (repo == (Project.find(params[:id]).repositories.find_by_identifier_param(params[:repository_id]) or Project.find(params[:id]).repository)) then\n  \" selected\"\nelse\n  \"\"\nend)))\n end.join(\"<br />\")",
+      "render_path": [{"type":"controller","class":"RepositoriesController","method":"show","line":98,"file":"app/controllers/repositories_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "repositories/show"
+      },
+      "user_input": "Project.find(params[:id]).repositories",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Denial of Service",
+      "warning_code": 76,
+      "fingerprint": "c04e96fda8a6669e171a9d7f1a4d84d2ab335fe2de31e68eadc5d03fe10fd863",
+      "check_name": "RegexDoS",
+      "message": "Model attribute used in regex",
+      "file": "app/models/mail_handler.rb",
+      "line": 378,
+      "link": "https://brakemanscanner.org/docs/warning_types/denial_of_service/",
+      "code": "/^(#{\"#{attr.to_s.humanize}|#{l(\"field_#{attr}\", :default => \"\", :locale => user.language)}|#{l(\"field_#{attr}\", :default => \"\", :locale => Setting.default_language)}\"})[ \\t]*:[ \\t]*(#{\".+\"})\\s*$/i",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MailHandler",
+        "method": "extract_keyword!"
+      },
+      "user_input": "Setting.default_language",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "c33cff2256e08c503d234eb3e386b9d52eca30c107ad2d36cbdf7a3482922373",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/attachments_controller.rb",
+      "line": 79,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Attachment.find(params[:id]).diskfile, :filename => filename_for_content_disposition(Attachment.find(params[:id]).filename), :type => detect_content_type(Attachment.find(params[:id])), :disposition => disposition(Attachment.find(params[:id])))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttachmentsController",
+        "method": "download"
+      },
+      "user_input": "Attachment.find(params[:id]).diskfile",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "c5baa6e18a230f876a6c683950af8af3da3b1fd69dcce1487165fd5d3a5acfe5",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/redmine/version.rb",
+      "line": 23,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`#{Redmine::Scm::Adapters::SubversionAdapter.client_command} info --xml #{Redmine::Scm::Adapters::AbstractAdapter.shell_quote(Rails.root.to_s)}`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::VERSION",
+        "method": "s(:self).revision"
+      },
+      "user_input": "Redmine::Scm::Adapters::SubversionAdapter.client_command",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "cbf55a898ac82da58ca0268e96c54e70d86e7fce00c887a3fe0485595f1f9283",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/redmine/acts/positioned.rb",
+      "line": 109,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "position_scope.where(\"id <> ? AND position BETWEEN ? AND ?\", id, min, max).update_all(\"position = position + #{(position_before_last_save <=> position)}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::Positioned::InstanceMethods",
+        "method": "shift_positions"
+      },
+      "user_input": "(position_before_last_save <=> position)",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "d706bc0a02c71c817cc45440584439b6c6cb9f4f510729bc587e5adc778b0b16",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/gantts/show.html.erb",
+      "line": 351,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Redmine::Helpers::Gantt.new(params).lines",
+      "render_path": [{"type":"controller","class":"GanttsController","method":"show","line":43,"file":"app/controllers/gantts_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "gantts/show"
+      },
+      "user_input": "params",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d81ac7ddc22e3812e2eaa56da8b1222942c958c5835863016c027a6ce829c9c7",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/redmine/field_format.rb",
+      "line": 801,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"COALESCE(#{join_alias(custom_field)}.value, '')\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::FieldFormat::RecordList",
+        "method": "group_statement"
+      },
+      "user_input": "join_alias(custom_field)",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d96eff06d96bbbe1cc528a0f6fb09ef0a92643f5163c0d053c681994dcd19642",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/query.rb",
+      "line": 909,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"#{s} #{(sort_criteria.order_for(group_by_column.name) or (group_by_column.default_order or \"asc\")).upcase}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Query",
+        "method": "group_by_sort_order"
+      },
+      "user_input": "s",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "f4f92221c3db6a414e0b3ced58c4efa6fd2c2f2f855849a8114ebd278e72ba9e",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/plugins/acts_as_activity_provider/lib/acts_as_activity_provider.rb",
+      "line": 73,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "(activity_provider_options[event_type][:scope].call or self).where(\"#{activity_provider_options[event_type][:timestamp]} BETWEEN ? AND ?\", from, to).where(\"#{activity_provider_options[event_type][:author_key]} = ?\", options[:author].id)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::ActivityProvider::InstanceMethods::ClassMethods",
+        "method": "find_events"
+      },
+      "user_input": "activity_provider_options[event_type][:author_key]",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "f5305baf2fd506a1fb593f53f1805d5bfc833b24078fb60eba619f90b6e348b8",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/journals/new.js.erb",
+      "line": 6,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "escape_javascript(((+\"#{ll(Setting.default_language, :text_user_wrote_in, :value => Journal.visible.find(params[:journal_id]).user, :link => (\"#note-#{params[:journal_indice]}\"))}\\n> \" or +\"#{ll(Setting.default_language, :text_user_wrote, Issue.find(params[:id]).author)}\\n> \") << ((Journal.visible.find(params[:journal_id]).notes or Issue.find(params[:id]).description).to_s.strip.gsub(/<pre>(.*?)<\\/pre>/m, \"[...]\").gsub(/(\\r?\\n|\\r\\n?)/, \"\\n> \") + \"\\n\\n\")))",
+      "render_path": [{"type":"controller","class":"JournalsController","method":"new","line":66,"file":"app/controllers/journals_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "journals/new"
+      },
+      "user_input": "Setting.default_language",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "f53a087868dfd494a4df972d1f8fea87b4ad6c3ff99ccaba92538e8ff07f1892",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/attachments_controller.rb",
+      "line": 89,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Attachment.find(params[:id]).thumbnail(:size => params[:size]), :filename => filename_for_content_disposition(Attachment.find(params[:id]).filename), :type => detect_content_type(Attachment.find(params[:id]), true), :disposition => \"inline\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "AttachmentsController",
+        "method": "thumbnail"
+      },
+      "user_input": "Attachment.find(params[:id]).thumbnail(:size => params[:size])",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "f76f6a57a6b33f7cbfa7495995bc7bd928962a919ee3225f87d02cd836fa65fa",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/plugins/acts_as_searchable/lib/acts_as_searchable.rb",
+      "line": 127,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "search_scope(user, [tokens, projects], options).joins(:journals).where(\"#{Journal.table_name}.private_notes = ? OR (#{Project.allowed_to_condition(user, :view_private_notes)})\", false)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::Searchable::InstanceMethods::ClassMethods",
+        "method": "search_result_ranks_and_ids"
+      },
+      "user_input": "Project.allowed_to_condition(user, :view_private_notes)",
+      "confidence": "Medium"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "f7c6c62ffa2ef8f1954162b96aedb63994a2d6f292f982f01d5446dc70fb7f9c",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/plugins/acts_as_searchable/lib/acts_as_searchable.rb",
+      "line": 198,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "(searchable_options[:scope] or self).call(options).visible(user).where(Project.allowed_to_condition(user, (searchable_options[:permission] or :view_project))).where(\"#{searchable_options[:project_key]} IN (?)\", projects.map(&:id))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::Searchable::InstanceMethods::ClassMethods",
+        "method": "search_scope"
+      },
+      "user_input": "searchable_options[:project_key]",
+      "confidence": "Weak"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "ff39a7fe1af0bd1db4fb6ae3db4b60726440a2a1c9c6ebdb7fe6ef06d68ac0b2",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/plugins/acts_as_customizable/lib/acts_as_customizable.rb",
+      "line": 50,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "CustomField.where(\"type = '#{self.class.name}CustomField'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::Customizable::InstanceMethods",
+        "method": "available_custom_fields"
+      },
+      "user_input": "self.class.name",
+      "confidence": "Medium"
+    }
+  ],
+  "ignored_warnings": [
+
+  ],
+  "errors": [
+
+  ],
+  "obsolete": [
+
+  ]
+}
