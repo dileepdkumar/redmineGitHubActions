@@ -19,6 +19,4 @@ jobs:
         # Optional - x64 or x86 architecture, defaults to x64
         architecture: 'x64'
     - name: run FortiDevSec
-      run: docker run -ti --rm --mount type=bind,source="$(PWD)",target=/scan dops-registry.fortinet-us.com/fortidevsecops/fdevsec_sec_engine:0.0.1 main
-    - name: Run skencli
-      run: skencli
+      run: docker run --rm --mount type=bind,source="$(PWD)",target=/scan dops-registry.fortinet-us.com/fortidevsecops/fdevsec_sec_engine:0.0.1 main
