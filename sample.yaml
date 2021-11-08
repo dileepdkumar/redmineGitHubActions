@@ -5,14 +5,14 @@ buildtool:
     path: /somepath
 
 id:
-  org: "21935eb3-445d-4635-86d3-f1685cf1c14f"
-  app: "3223ce3a-d072-406f-a8c2-e8641edba1cc"
+  org: "f4a0dd84-fae6-40ca-9e49-71ac3d70618d"
+  app: "7c2bff51-4224-4fc0-a32a-70e0ceb6d8b4"
 
 # Optional parameters.
 scanners:
   - sast
-  - dast
   - sca
+  - secret
 
 dast:
   url: https://your.url.com
