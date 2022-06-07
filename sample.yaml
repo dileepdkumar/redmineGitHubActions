@@ -1,35 +1,11 @@
 version: v1
 
-buildtool:
-  - name: jenkins
-    path: /somepath
-
 id:
-  org: "f4a0dd84-fae6-40ca-9e49-71ac3d70618d"
-  app: "7c2bff51-4224-4fc0-a32a-70e0ceb6d8b4"
+  org: "15a29fea-ebaf-4187-94a3-bccca055e2dd"
+  app: "c80fc6d1-b088-494c-b6c7-73d66ad8b38e"
 
 # Optional parameters.
 scanners:
   - sast
   - sca
   - secret
-
-dast:
-  url: https://your.url.com
-  login_url: https://your.url.com/login
-  login_body: https://your.url.com/login-body
-  username: hello
-  password: hi
-  full_scan: true #true|false
-
-resource:
-  allowed_cpus: [0,]
-  serial_scan: false
-  max_cpu: 0
-  max_mem: 0
-  max_files: 0
-  max_loc: 0
-
-on_prem:
-  sec_ops_server: http://10.34.160.120
-
