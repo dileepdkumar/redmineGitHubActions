@@ -4,11 +4,11 @@ on:
 
   push:
 
-    branches: [ master ]
+    branches: [ main ]
 
   pull_request:
 
-    branches: [ master ]
+    branches: [ main ]
 
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
 
     - name: SAST
 
-       run: |
+      run: |
 
           docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest
 
