@@ -1,25 +1,30 @@
-name: CI
+name: FortiDevSec Scanner CI
+
 on:
+
   push:
-    branches: [ main ]
+
+    branches: [ master ]
+
   pull_request:
-    branches: [ main ]
+
+    branches: [ master ]
+
+
 jobs:
+
   build:
-    runs-on: self-hosted
+
+    runs-on: ubuntu-latest
+
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+
     - uses: actions/checkout@v2
 
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v2
-      with:
-        # Semantic version range syntax or exact version of a Python version
-        python-version: '3.x'
-        # Optional - x64 or x86 architecture, defaults to x64
-        architecture: 'x64'
-    - name: user
-      run: echo  $USER 
+    - name: SAST
 
-    - name: run FortiDevSec
-      run: sudo docker run --rm --mount type=bind,source="$PWD",target=/scan dops-registry.fortinet-us.com/fortidevsecops/fdevsec_sec_engine:0.0.1 main
+       run: |
+
+          docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest
+
+          docker run --rm --mount type=bind,source=$PWD,target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
